@@ -1,0 +1,40 @@
+<script type="text/javascript">
+RED.nodes.registerType('zdlms', {
+  category: 'function',
+  color: '#dedede',
+  defaults: {
+    name: { value: '' },
+    protocol: { value: 'auto' }
+  },
+  inputs: 1,
+  outputs: 1,
+  icon: 'font-awesome/fa-bolt',
+  paletteLabel: 'zdlms',
+  label: function () {
+    const suffix = this.protocol && this.protocol !== 'auto' ? ` (${this.protocol})` : '';
+    return this.name || `zdlms${suffix}`;
+  }
+});
+</script>
+
+<script type="text/x-red" data-template-name="zdlms">
+  <div class="form-row">
+    <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+    <input type="text" id="node-input-name" placeholder="zdlms">
+  </div>
+  <div class="form-row">
+    <label for="node-input-protocol"><i class="fa fa-random"></i> Protocol</label>
+    <select id="node-input-protocol">
+      <option value="auto">自动/随消息</option>
+      <option value="645">DL/T 645</option>
+      <option value="698">DL/T 698</option>
+    </select>
+  </div>
+</script>
+
+<script type="text/x-red" data-help-name="zdlms">
+  <p>DL/T 645 &amp; 698 模块化版本：645 逻辑已移入 <code>lib/645.js</code>，698 当前为占位。</p>
+  <p><strong>输入</strong>：<code>msg.payload</code> 支持 hex 字符串、Buffer、对象或数组；<code>msg.mode/msg.action</code> 可设 encode/decode（默认自动判定）。</p>
+  <p><strong>输出</strong>：645 模块返回解析结果与状态；698 目前返回占位提示。</p>
+  <p>协议字段可在节点属性中设置为默认，也可运行时通过 <code>msg.protocol</code> 覆盖。</p>
+</script>

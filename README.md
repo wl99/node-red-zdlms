@@ -18,6 +18,7 @@ Restart Node-RED and look for the `zdlms-encode` / `zdlms-decode` nodes under th
 - 两个节点均可配置 `Protocol` 为 645 / 698 / auto（默认 auto，亦可通过 `msg.protocol` 覆盖）。
 - 输入：`msg.payload` 支持字符串、Buffer、对象或数组（批处理）。对象可携带 `{hex|raw}` 或 `{oad, oadHex, sa, ca...}` 等参数。
 - 输出：统一格式的解析/编码结果、状态、元数据（`msg.meta`/`msg.decoding_details` 等）。
+- 旧的通用节点 `zdlms` 已移除，请在现有 Flow 中替换为上述两个节点。
 
 ### Encode 关键参数（698 示例）
 - `msg.payload.oadHex` / `oad`: OAD 编码（支持 `XXXXXXXX` / `XXXXXXXX-YYYYYYYY` 等）。

@@ -22,8 +22,9 @@
     "url": "https://github.com/wl99/node-red-zdlms/issues"
   },
   "homepage": "https://github.com/wl99/node-red-zdlms#readme",
-  "main": "nodes/zdlms-encode.js",
+  "main": "index.js",
   "files": [
+    "index.js",
     "nodes/",
     "lib/",
     "README.md"

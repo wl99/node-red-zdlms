@@ -1,0 +1,40 @@
+<script type="text/javascript">
+RED.nodes.registerType('zdlms-encode', {
+  category: 'function',
+  color: '#dedede',
+  defaults: {
+    name: { value: '' },
+    protocol: { value: 'auto' }
+  },
+  inputs: 1,
+  outputs: 1,
+  icon: 'font-awesome/fa-bolt',
+  paletteLabel: 'zdlms-encode',
+  label: function () {
+    const suffix = this.protocol && this.protocol !== 'auto' ? ` (${this.protocol})` : '';
+    return this.name || `zdlms-encode${suffix}`;
+  }
+});
+</script>
+
+<script type="text/x-red" data-template-name="zdlms-encode">
+  <div class="form-row">
+    <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+    <input type="text" id="node-input-name" placeholder="zdlms-encode">
+  </div>
+  <div class="form-row">
+    <label for="node-input-protocol"><i class="fa fa-random"></i> Protocol</label>
+    <select id="node-input-protocol">
+      <option value="auto">自动/随消息</option>
+      <option value="645">DL/T 645</option>
+      <option value="698">DL/T 698</option>
+    </select>
+  </div>
+</script>
+
+<script type="text/x-red" data-help-name="zdlms-encode">
+  <p>编码节点：固定将 <code>mode</code>/<code>action</code> 设为 <strong>encode</strong>，调用 645/698 编码器。</p>
+  <p><strong>输入</strong>：支持对象、字符串、Buffer 或数组；可附带 <code>oad/oadHex</code>、<code>sa/ca</code>、<code>service</code> 等参数。</p>
+  <p><strong>协议选择</strong>：节点属性的 Protocol 可设默认值，也可通过 <code>msg.protocol</code> 或 payload.protocol 覆盖；自动模式下依据字段特征判定。</p>
+  <p><strong>输出</strong>：编码好的帧 HEX、帧信息与元数据，结构与原通用节点保持一致。</p>
+</script>

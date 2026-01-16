@@ -1,0 +1,40 @@
+<script type="text/javascript">
+RED.nodes.registerType('zdlms-decode', {
+  category: 'function',
+  color: '#dedede',
+  defaults: {
+    name: { value: '' },
+    protocol: { value: 'auto' }
+  },
+  inputs: 1,
+  outputs: 1,
+  icon: 'font-awesome/fa-bolt',
+  paletteLabel: 'zdlms-decode',
+  label: function () {
+    const suffix = this.protocol && this.protocol !== 'auto' ? ` (${this.protocol})` : '';
+    return this.name || `zdlms-decode${suffix}`;
+  }
+});
+</script>
+
+<script type="text/x-red" data-template-name="zdlms-decode">
+  <div class="form-row">
+    <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+    <input type="text" id="node-input-name" placeholder="zdlms-decode">
+  </div>
+  <div class="form-row">
+    <label for="node-input-protocol"><i class="fa fa-random"></i> Protocol</label>
+    <select id="node-input-protocol">
+      <option value="auto">自动/随消息</option>
+      <option value="645">DL/T 645</option>
+      <option value="698">DL/T 698</option>
+    </select>
+  </div>
+</script>
+
+<script type="text/x-red" data-help-name="zdlms-decode">
+  <p>解码节点：固定将 <code>mode</code>/<code>action</code> 设为 <strong>decode</strong>，调用 645/698 解析逻辑。</p>
+  <p><strong>输入</strong>：完整帧的 HEX、Buffer、对象或数组；自动剥离 FE，校验 HCS/FCS，返回统一解析结果。</p>
+  <p><strong>协议选择</strong>：节点属性的 Protocol 可设默认值，也可通过 <code>msg.protocol</code> 或 payload.protocol 覆盖；自动模式下依据字段特征判定。</p>
+  <p><strong>输出</strong>：解析结果放入 <code>msg.payload</code>，详情在 <code>msg.decoding_details</code> 与 <code>msg.meta</code>。</p>
+</script>

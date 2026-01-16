@@ -9,14 +9,15 @@ cd ~/.node-red
 npm install /Users/john/WorkSpace/node-red-zdlms
 ```
 
-Restart Node-RED and look for the `zdlms` node under the Function section.
+Restart Node-RED and look for the `zdlms-encode` / `zdlms-decode` nodes under the Function section.
 
 ## Usage (Node-RED)
 
-- 拖入 `zdlms` 节点（Function 分类），可选配置 `Protocol` 作为默认协议提示。
-- 通过 `msg.mode` / `msg.action` 选择 `encode` 或 `decode`；缺省自动判定（帧/请求自动识别）。
+- `zdlms-encode`：固定 encode，适合构造下行帧。
+- `zdlms-decode`：固定 decode，适合解析上行帧。
+- 两个节点均可配置 `Protocol` 为 645 / 698 / auto（默认 auto，亦可通过 `msg.protocol` 覆盖）。
 - 输入：`msg.payload` 支持字符串、Buffer、对象或数组（批处理）。对象可携带 `{hex|raw}` 或 `{oad, oadHex, sa, ca...}` 等参数。
-- 输出：根据协议返回统一格式的解析结果、状态、元数据（`msg.meta`/`msg.decoding_details` 等）。
+- 输出：统一格式的解析/编码结果、状态、元数据（`msg.meta`/`msg.decoding_details` 等）。
 
 ### Encode 关键参数（698 示例）
 - `msg.payload.oadHex` / `oad`: OAD 编码（支持 `XXXXXXXX` / `XXXXXXXX-YYYYYYYY` 等）。
@@ -32,14 +33,14 @@ Restart Node-RED and look for the `zdlms` node under the Function section.
 
 ## 实现简述
 
-- `nodes/zdlms.js` 按 `msg.protocol`（或节点配置）选择 645/698 模块。
+- `nodes/zdlms-encode.js` / `nodes/zdlms-decode.js` 按 `msg.protocol`（或节点配置）选择 645/698 模块，并固定模式。
 - 645：完整逻辑在 `lib/645.js`。
 - 698：完整编解码与解析在 `lib/698.js`（含大量 OAD 适配、自动安全策略）。
 
 ## Dev notes
 
 - Package name: `node-red-zdlms`
-- Node name/type: `zdlms`
+- Node types: `zdlms-encode`, `zdlms-decode`
 - Node-RED compatibility: `>=1.3.0`
 
-Feel free to adjust the palette icon/color and add additional configuration fields (e.g., serial port, baud rate) as your flow requires. Placeholder decoders `lib/645.js`、`lib/698.js` 仍保留，如需拆分逻辑可继续使用。
+Feel free to adjust the palette icon/color and add additional configuration fields (e.g., serial port, baud rate) as your flow requires。`lib/645.js`、`lib/698.js` 可直接复用。
